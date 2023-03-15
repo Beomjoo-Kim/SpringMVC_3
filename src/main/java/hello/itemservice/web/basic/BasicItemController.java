@@ -46,6 +46,21 @@ public class BasicItemController {
         return "basic/item";
     }
 
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable Long itemId, Model model) {
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
+        return "basic/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String editItem(@PathVariable Long itemId, @ModelAttribute Item item) {
+        Item originalItem = itemRepository.findById(itemId);
+        itemRepository.update(itemId, item);
+        //return 에 redirect 를 set 하고 {itemId} 를 입력하게되면 @PathVariable 에서 받아온 값이 자동으로 들어간다.
+        return "redirect:/basic/items/{itemId}";
+    }
+
     /**
      * test init
      */
