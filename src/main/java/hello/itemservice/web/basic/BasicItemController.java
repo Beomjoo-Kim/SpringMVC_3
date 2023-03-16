@@ -43,7 +43,9 @@ public class BasicItemController {
     //추가적으로, @ModelAttribute 는 생략이 가능하다. 이 때 model 에 들어가는 이름은 지정하지 않았을 때와 동일하다.
     public String addItem(Item item, Model model) {
         itemRepository.save(item);
-        return "basic/item";
+        //PRG -> post/redirect/get
+        //이렇게 처리를 하게 되면 중간에 redirect 가 들어가기 때문에 refresh 를 진행해도 같은 요청이 반복되지 않는다.
+        return "redirect:/basic/items/" + item.getId();
     }
 
     @GetMapping("/{itemId}/edit")
